@@ -1,4 +1,4 @@
-##　我的餐廳清單
+## 我的餐廳清單
 
 ### 描述
 
@@ -18,7 +18,6 @@
 
 - 在搜尋欄搜尋餐廳
 - 檢視餐廳詳細資訊
-
 
 ### 安裝
 
@@ -55,4 +54,4 @@ nodemon app.js
 
 ### 開發者
 
-+ [Timothy](https://github.com/Coli-co)
+- [Timothy](https://github.com/Coli-co)
