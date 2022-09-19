@@ -21,18 +21,22 @@ app.get('/', (req, res) => {
 
 app.get('/restaurants', (req, res) => {
   res.send('This is restaurant list homepage.')
-  // res.render('index')
+
 })
 
 
 app.get('/restaurant/list',(req, res) => {
-  res.send('This is good restaurant.')
+  res.send('This is good restaurant list.')
 })
 
 
-app.get('/restaurants/list/:detail', (req, res) => {
-  res.send(`<h1>${req.params.detail} is a good restaurant!</h1>`)
+app.get('/restaurantlist/:restaurant_id', (req, res) => {
+  const restaurant = restaurantList.results.find(restaurant => restaurant.id.toString() === req.params.restaurant_id)
+  res.render('show', {each_restaurant: restaurant})
 })
+
+
+
 
 
 // Listening on port 3000
