@@ -33,8 +33,8 @@ app.get('/restaurant/list',(req, res) => {
   res.send('This is good restaurant list.')
 })
 
-// show each restaurant router
-app.get('/restaurantlist/:restaurant_id', (req, res) => {
+// click each restaurant and show details
+app.get('/restaurants/:restaurant_id', (req, res) => {
   const restaurant = restaurantList.results.find(restaurant => restaurant.id.toString() === req.params.restaurant_id)
   res.render('show', {each_restaurant: restaurant})
 })
