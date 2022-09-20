@@ -41,7 +41,12 @@ app.get('/restaurants/:restaurant_id', (req, res) => {
 
 // search restaurant router　through name & category
 app.get('/search', (req, res) => {
-  const keyword = req.query.keyword
+  const keyword = req.query.keyword.trim()
+  // if search bar is empty, return homepage
+  if (!keyword) {
+    return res.render('index',{ restaurant: restaurantList.results})
+  }
+
   const search_restaurant = restaurantList.results.filter(restaurant => {
     return restaurant.name.toLowerCase().includes(keyword.toLowerCase()) || restaurant.category.includes(keyword)
   })
