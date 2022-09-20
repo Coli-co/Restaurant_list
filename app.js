@@ -39,11 +39,11 @@ app.get('/restaurantlist/:restaurant_id', (req, res) => {
   res.render('show', {each_restaurant: restaurant})
 })
 
-// search restaurant router
+// search restaurant router　through name & category
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword
   const search_restaurant = restaurantList.results.filter(restaurant => {
-    return restaurant.name.toLowerCase().includes(req.query.keyword.toLowerCase())
+    return restaurant.name.toLowerCase().includes(keyword.toLowerCase()) || restaurant.category.includes(keyword)
   })
   res.render('index', {restaurant: search_restaurant, keyword: keyword})
 })
