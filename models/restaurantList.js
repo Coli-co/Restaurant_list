@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const restaurantListSchema = new Schema({
-  id: { type: String, require: true },
   name: { type: String, require: true },
   name_en: { type: String, require: true },
   category: { type: String, require: true },
