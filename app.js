@@ -57,6 +57,23 @@ app.get('/restaurants/:restaurant_id', (req, res) => {
     .catch((error) => console.log(error))
 })
 
+// edit restaurant
+app.get('/restaurants/:restaurant_id/edit', (req, res) => {
+  const id = req.params.restaurant_id
+  Restaurantlist.findById(id)
+    .lean()
+    .then((restaurant) => res.render('edit', { restaurant }))
+    .catch((error) => console.log(error))
+})
+
+// update restaurant
+app.post('/restaurants/:restaurant_id', (req, res) => {
+  const id = req.params.restaurant_id
+  Restaurantlist.findByIdAndUpdate(id, req.body)
+    .then(() => res.redirect(`/restaurants/${id}`))
+    .catch((error) => console.log(error))
+})
+
 // search restaurant router　through name & category
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword.trim()
