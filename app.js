@@ -48,12 +48,13 @@ app.post('/restaurant', (req, res) => {
     .catch((error) => console.log(error))
 })
 
-// click each restaurant and show details
+// show each restaurant details
 app.get('/restaurants/:restaurant_id', (req, res) => {
-  const restaurant = restaurantList.results.find(
-    (restaurant) => restaurant.id.toString() === req.params.restaurant_id
-  )
-  res.render('show', { each_restaurant: restaurant })
+  const id = req.params.restaurant_id
+  Restaurantlist.findById(id)
+    .lean()
+    .then((restaurant) => res.render('show', { restaurant }))
+    .catch((error) => console.log(error))
 })
 
 // search restaurant router　through name & category
