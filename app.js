@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const port = 3000
+const bodyParser = require('body-parser')
 // require express-handlebars
 const exphbs = require('express-handlebars')
 // setting template engine
@@ -26,7 +27,8 @@ db.once('open', () => {
 
 // setting static files
 app.use(express.static('public'))
-
+// every request through body-parser process
+app.use(bodyParser.urlencoded({ extended: true }))
 // show all restaurant router
 app.get('/', (req, res) => {
   Restaurantlist.find()
@@ -34,13 +36,16 @@ app.get('/', (req, res) => {
     .then((restaurant) => res.render('index', { restaurant }))
     .catch((error) => console.log(error))
 })
-
-app.get('/restaurants', (req, res) => {
-  res.send('This is restaurant list homepage.')
+// create restaurant router
+app.get('/restaurants/new', (req, res) => {
+  return res.render('new')
 })
-
-app.get('/restaurant/list', (req, res) => {
-  res.send('This is good restaurant list.')
+// create restaurant router
+app.post('/restaurant', (req, res) => {
+  const name = req.body.name
+  return Restaurantlist.create({ name })
+    .then(() => res.redirect('/'))
+    .catch((error) => console.log(error))
 })
 
 // click each restaurant and show details
