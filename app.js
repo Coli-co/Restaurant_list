@@ -76,19 +76,21 @@ app.post('/restaurants/:restaurant_id', (req, res) => {
 
 // search restaurant router　through name & category
 app.get('/search', (req, res) => {
-  const keyword = req.query.keyword.trim()
+  const keyword = req.query.keyword.trim().toLowerCase()
   // if search bar is empty, return homepage
   if (!keyword) {
-    return res.render('index', { restaurant: restaurantList.results })
+    return res.redirect('/')
   }
-
-  const search_restaurant = restaurantList.results.filter((restaurant) => {
-    return (
-      restaurant.name.toLowerCase().includes(keyword.toLowerCase()) ||
-      restaurant.category.includes(keyword)
-    )
-  })
-  res.render('index', { restaurant: search_restaurant, keyword: keyword })
+  Restaurantlist.find()
+    .lean()
+    .then((restaurant) => {
+      const search_restaurant = restaurant.filter(
+        (data) =>
+          data.name.toLowerCase().includes(keyword) ||
+          data.category.includes(keyword)
+      )
+      res.render('index', { restaurant: search_restaurant, keyword: keyword })
+    })
 })
 
 // Listening on port 3000
