@@ -29,18 +29,18 @@ db.once('open', () => {
 app.use(express.static('public'))
 // every request through body-parser process
 app.use(bodyParser.urlencoded({ extended: true }))
-// show all restaurant router
+// homepsge:show all restaurant router
 app.get('/', (req, res) => {
   Restaurantlist.find()
     .lean()
     .then((restaurant) => res.render('index', { restaurant }))
     .catch((error) => console.log(error))
 })
-// create restaurant router
+// create new restaurant router
 app.get('/restaurants/new', (req, res) => {
   return res.render('new')
 })
-// create restaurant router
+// create new restaurant router
 app.post('/restaurant', (req, res) => {
   const name = req.body.name
   return Restaurantlist.create({ name })
@@ -77,6 +77,8 @@ app.post('/restaurants/:restaurant_id', (req, res) => {
 // search restaurant router　through name & category
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword.trim().toLowerCase()
+  const keywordEnter = req.query.keyword
+
   // if search bar is empty, return homepage
   if (!keyword) {
     return res.redirect('/')
@@ -84,13 +86,28 @@ app.get('/search', (req, res) => {
   Restaurantlist.find()
     .lean()
     .then((restaurant) => {
-      const search_restaurant = restaurant.filter(
+      const searchRestaurant = restaurant.filter(
         (data) =>
           data.name.toLowerCase().includes(keyword) ||
           data.category.includes(keyword)
       )
-      res.render('index', { restaurant: search_restaurant, keyword: keyword })
+
+      res.render('index', {
+        restaurant: searchRestaurant,
+        keyword: keywordEnter
+      })
     })
+    .catch((error) => console.log(error))
+})
+
+// delete restaurant
+app.post('/restaurants/:restaurant_id/delete', (req, res) => {
+  console.log('delete database data')
+
+  const id = req.params.restaurant_id
+  Restaurantlist.findByIdAndDelete(id)
+    .then(() => res.redirect('/'))
+    .catch((error) => console.log(error))
 })
 
 // Listening on port 3000
