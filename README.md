@@ -1,58 +1,66 @@
-## 我的餐廳清單
+## My Restaurant List
 
-### 描述
+### Intrduction
 
-這是一個可瀏覽多張餐廳卡片，以及含有搜尋功能的簡易網頁應用。
+This is a web application about restaurant list, including features of adding, browsing, and deleting. Besides, you can also check each restaurant page to view more detail.
 
-### 專案畫面
+### Screenshot
 
-- 首頁
+- Homepage
   ![Homepage](./public/img/hompage.jpg)
 
 ---
 
-- 餐廳資訊
+- Restaurant Info
   ![Restaurant_info](./public/img/restaurant_info.jpg)
 
-### 功能
+### Features
 
-- 可透過名稱、類別搜尋餐廳
-- 搜尋空白欄位時，顯示首頁
-- 可點擊或透過路由來檢視餐廳詳細資訊
+- Search restaurant through name or category
+- Add new restaurant info
+- Edit restaurant info
+- Delete restaurant info
+- View restaurant detail
 
-### 安裝
+### Install
 
-1. 將本專案存放至本機專案位置
+1. Store this project to local
 
 ```
 git clone https://github.com/Coli-co/Restaurant_list.git
 ```
 
-2. 切換至專案資料夾
+2. Switch to project folder
 
 ```
 cd Restaurant_list
 ```
 
-3. 安裝專案所需的 npm 套件
+3. Install npm packages required
 
 ```
 npm install
 ```
 
-4. 執行專案
+4. Get restaurant list data
 
 ```
-nodemon app.js
+npm run seed
 ```
 
-### 路由
+5. Start project
 
-| Description  | Router                                           |
-| ------------ | ------------------------------------------------ |
-| 首頁         | http://localhost:3000                            |
-| 檢視餐廳資料 | http://localhost:3000/restaurants/:reataurant_id |
+```
+npm run dev
+```
 
-### 開發者
+### Router
+
+| Description       | Router                                           |
+| ----------------- | ------------------------------------------------ |
+| Hompeage          | http://localhost:3000                            |
+| Restaurant detail | http://localhost:3000/restaurants/:reataurant_id |
+
+### Developer
 
 - [Timothy](https://github.com/Coli-co)

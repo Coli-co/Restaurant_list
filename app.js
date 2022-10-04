@@ -9,7 +9,8 @@ app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 
 const mongoose = require('mongoose')
-const Restaurantlist = require('./models/restaurantList') // load Restaurantlist model
+// load Restaurantlist model
+const Restaurantlist = require('./models/restaurantList')
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -29,7 +30,8 @@ db.once('open', () => {
 app.use(express.static('public'))
 // every request through body-parser process
 app.use(bodyParser.urlencoded({ extended: true }))
-// homepsge:show all restaurant router
+
+// homepage:show all restaurant router
 app.get('/', (req, res) => {
   Restaurantlist.find()
     .lean()
@@ -74,6 +76,14 @@ app.post('/restaurants/:restaurant_id', (req, res) => {
     .catch((error) => console.log(error))
 })
 
+// delete restaurant
+app.post('/restaurants/:restaurant_id/delete', (req, res) => {
+  const id = req.params.restaurant_id
+  Restaurantlist.findByIdAndDelete(id)
+    .then(() => res.redirect('/'))
+    .catch((error) => console.log(error))
+})
+
 // search restaurant router　through name & category
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword.trim().toLowerCase()
@@ -91,22 +101,11 @@ app.get('/search', (req, res) => {
           data.name.toLowerCase().includes(keyword) ||
           data.category.includes(keyword)
       )
-
       res.render('index', {
         restaurant: searchRestaurant,
         keyword: keywordEnter
       })
     })
-    .catch((error) => console.log(error))
-})
-
-// delete restaurant
-app.post('/restaurants/:restaurant_id/delete', (req, res) => {
-  console.log('delete database data')
-
-  const id = req.params.restaurant_id
-  Restaurantlist.findByIdAndDelete(id)
-    .then(() => res.redirect('/'))
     .catch((error) => console.log(error))
 })
 
