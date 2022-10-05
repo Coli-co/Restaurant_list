@@ -2,20 +2,16 @@ const express = require('express')
 const app = express()
 const port = 3000
 const bodyParser = require('body-parser')
-// require express-handlebars
 const exphbs = require('express-handlebars')
-// setting template engine
-app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
-app.set('view engine', 'handlebars')
-
 const mongoose = require('mongoose')
 // load Restaurantlist model
 const Restaurantlist = require('./models/restaurantList')
+
+// create mongoose connection
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-
 const db = mongoose.connection
 
 db.on('error', () => {
@@ -26,6 +22,9 @@ db.once('open', () => {
   console.log('Mongodb connected!')
 })
 
+// setting template engine
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
+app.set('view engine', 'handlebars')
 // setting static files
 app.use(express.static('public'))
 // every request through body-parser process
@@ -38,10 +37,12 @@ app.get('/', (req, res) => {
     .then((restaurant) => res.render('index', { restaurant }))
     .catch((error) => console.log(error))
 })
+
 // create new restaurant router
 app.get('/restaurants/new', (req, res) => {
   return res.render('new')
 })
+
 // create new restaurant router
 app.post('/restaurant', (req, res) => {
   const name = req.body.name
@@ -106,10 +107,10 @@ app.get('/search', (req, res) => {
 
       // recommend restaurant & category
       restaurant.forEach((item) => {
-        if (recommendName.includes(item.name) === false) {
+        if (!recommendName.includes(item.name)) {
           recommendName.push(item.name)
         }
-        if (recommendCategory.includes(item.category) === false) {
+        if (!recommendCategory.includes(item.category)) {
           recommendCategory.push(item.category)
         }
       })
@@ -127,7 +128,7 @@ app.get('/search', (req, res) => {
     .catch((error) => console.log(error))
 })
 
-// Listening on port 3000
+// Listening on server
 app.listen(port, () => {
   console.log(`Express is running on http://localhost/${port}`)
 })
