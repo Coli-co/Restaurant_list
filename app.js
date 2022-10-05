@@ -33,7 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // homepage:show all restaurant router
 app.get('/', (req, res) => {
-  Restaurantlist.find()
+  Restaurantlist.find({})
     .lean()
     .then((restaurant) => res.render('index', { restaurant }))
     .catch((error) => console.log(error))
@@ -95,7 +95,7 @@ app.get('/search', (req, res) => {
   if (!keyword) {
     return res.redirect('/')
   }
-  Restaurantlist.find()
+  Restaurantlist.find({})
     .lean()
     .then((restaurant) => {
       const searchRestaurant = restaurant.filter(
