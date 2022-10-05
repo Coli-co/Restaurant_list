@@ -53,6 +53,7 @@ app.post('/restaurant', (req, res) => {
 // show each restaurant details
 app.get('/restaurants/:restaurant_id', (req, res) => {
   const id = req.params.restaurant_id
+
   Restaurantlist.findById(id)
     .lean()
     .then((restaurant) => res.render('show', { restaurant }))
@@ -88,7 +89,8 @@ app.post('/restaurants/:restaurant_id/delete', (req, res) => {
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword.trim().toLowerCase()
   const keywordEnter = req.query.keyword
-
+  const recommendName = []
+  const recommendCategory = []
   // if search bar is empty, return homepage
   if (!keyword) {
     return res.redirect('/')
@@ -101,9 +103,25 @@ app.get('/search', (req, res) => {
           data.name.toLowerCase().includes(keyword) ||
           data.category.includes(keyword)
       )
+
+      // recommend restaurant & category
+      restaurant.forEach((item) => {
+        if (recommendName.includes(item.name) === false) {
+          recommendName.push(item.name)
+        }
+        if (recommendCategory.includes(item.category) === false) {
+          recommendCategory.push(item.category)
+        }
+      })
+      // check match result
+      const matchResult = searchRestaurant.length === 0 ? true : false
+
       res.render('index', {
         restaurant: searchRestaurant,
-        keyword: keywordEnter
+        keyword: keywordEnter,
+        matchResult,
+        recommendName,
+        recommendCategory
       })
     })
     .catch((error) => console.log(error))

@@ -5,7 +5,7 @@
       <form action="/search">
         <h4 class="mb-2">尋找餐廳：</h4>
         <div class="input-group">
-          <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..." value="{{keyword}}" aria-describedby="search-button">
+          <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..." value="{{keyword}}" aria-dWescribedby="search-button">
           <div class="input-group-append">
             <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
           </div>
@@ -17,7 +17,23 @@
     </div>
   </div>
 </div>
-
+{{#if matchResult }}
+  <h2 class="text-center mt-3">沒有符合餐廳的資料，或許你可以嘗試以下的關鍵字!</h2>
+  <hr>
+    <h3 class="text-center" style="color:blue">餐廳名稱</h3>
+    {{#each recommendName}}
+    <div class="text-center">
+      {{this}}
+    </div>
+    {{/each}}
+  <hr>
+  <h3 class="text-center" style="color:blue">餐廳類別</h3>
+  {{#each recommendCategory}}
+  <div class="text-center">
+    {{this}}
+  </div>
+  {{/each}}
+{{/if}}
 <!-- restaurant list -->
 <div class="container mt-5">
   <div class="row">
