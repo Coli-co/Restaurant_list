@@ -42,16 +42,10 @@ cd Restaurant_list
 npm install
 ```
 
-4. Get restaurant list data
+4. Start project
 
 ```
-npm run seed
-```
-
-5. Start project
-
-```
-npm run dev
+npm run start
 ```
 
 ### Router
