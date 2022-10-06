@@ -7,6 +7,7 @@ const methodOverride = require('method-override')
 const mongoose = require('mongoose')
 // load Restaurantlist model
 const Restaurantlist = require('./models/restaurantList')
+const routes = require('./routes')
 
 // create mongoose connection
 mongoose.connect(process.env.MONGODB_URI, {
@@ -32,104 +33,7 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 // every request through methodOveride process
 app.use(methodOverride('_method'))
-
-// homepage:show all restaurant router
-app.get('/', (req, res) => {
-  Restaurantlist.find({})
-    .lean()
-    .then((restaurant) => res.render('index', { restaurant }))
-    .catch((error) => console.log(error))
-})
-
-// create new restaurant router
-app.get('/restaurants/new', (req, res) => {
-  return res.render('new')
-})
-
-// create new restaurant router
-app.post('/restaurant', (req, res) => {
-  const name = req.body.name
-  return Restaurantlist.create({ name })
-    .then(() => res.redirect('/'))
-    .catch((error) => console.log(error))
-})
-
-// show each restaurant details
-app.get('/restaurants/:restaurant_id', (req, res) => {
-  const id = req.params.restaurant_id
-
-  Restaurantlist.findById(id)
-    .lean()
-    .then((restaurant) => res.render('show', { restaurant }))
-    .catch((error) => console.log(error))
-})
-
-// edit restaurant
-app.get('/restaurants/:restaurant_id/edit', (req, res) => {
-  const id = req.params.restaurant_id
-  Restaurantlist.findById(id)
-    .lean()
-    .then((restaurant) => res.render('edit', { restaurant }))
-    .catch((error) => console.log(error))
-})
-
-// update restaurant
-app.put('/restaurants/:restaurant_id', (req, res) => {
-  const id = req.params.restaurant_id
-  Restaurantlist.findByIdAndUpdate(id, req.body)
-    .then(() => res.redirect(`/restaurants/${id}`))
-    .catch((error) => console.log(error))
-})
-
-// delete restaurant
-app.delete('/restaurants/:restaurant_id', (req, res) => {
-  const id = req.params.restaurant_id
-  Restaurantlist.findByIdAndDelete(id)
-    .then(() => res.redirect('/'))
-    .catch((error) => console.log(error))
-})
-
-// search restaurant router　through name & category
-app.get('/search', (req, res) => {
-  const keyword = req.query.keyword.trim().toLowerCase()
-  const keywordEnter = req.query.keyword
-  const recommendName = []
-  const recommendCategory = []
-  // if search bar is empty, return homepage
-  if (!keyword) {
-    return res.redirect('/')
-  }
-  Restaurantlist.find({})
-    .lean()
-    .then((restaurant) => {
-      const searchRestaurant = restaurant.filter(
-        (data) =>
-          data.name.toLowerCase().includes(keyword) ||
-          data.category.includes(keyword)
-      )
-
-      // recommend restaurant & category
-      restaurant.forEach((item) => {
-        if (!recommendName.includes(item.name)) {
-          recommendName.push(item.name)
-        }
-        if (!recommendCategory.includes(item.category)) {
-          recommendCategory.push(item.category)
-        }
-      })
-      // check match result
-      const matchResult = searchRestaurant.length === 0 ? true : false
-
-      res.render('index', {
-        restaurant: searchRestaurant,
-        keyword: keywordEnter,
-        matchResult,
-        recommendName,
-        recommendCategory
-      })
-    })
-    .catch((error) => console.log(error))
-})
+app.use(routes)
 
 // Listening on server
 app.listen(port, () => {
