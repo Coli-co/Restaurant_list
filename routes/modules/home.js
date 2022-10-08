@@ -15,7 +15,6 @@ router.get('/search', (req, res) => {
   const keyword = req.query.keyword.trim().toLowerCase()
   const keywordEnter = req.query.keyword
   const recommendName = []
-  const recommendCategory = []
   // if search bar is empty, return homepage
   if (!keyword) {
     return res.redirect('/')
@@ -31,13 +30,15 @@ router.get('/search', (req, res) => {
 
       // recommend restaurant & category
       restaurant.forEach((item) => {
-        if (!recommendName.includes(item.name)) {
-          recommendName.push(item.name)
-        }
-        if (!recommendCategory.includes(item.category)) {
-          recommendCategory.push(item.category)
+        let temp = {}
+        if (!temp.hasOwnProperty(item.name)) {
+          temp['name'] = item.name
+          temp['category'] = item.category
+          temp['id'] = item._id
+          recommendName.push(temp)
         }
       })
+
       // check match result
       const matchResult = searchRestaurant.length === 0 ? true : false
 
@@ -45,8 +46,7 @@ router.get('/search', (req, res) => {
         restaurant: searchRestaurant,
         keyword: keywordEnter,
         matchResult,
-        recommendName,
-        recommendCategory
+        recommendName
       })
     })
     .catch((error) => console.log(error))
