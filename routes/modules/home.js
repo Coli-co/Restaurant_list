@@ -2,10 +2,12 @@ const express = require('express')
 const router = express.Router()
 const Restaurantlist = require('../../models/restaurantList')
 
-// homepage:show all restaurant router
+// Routes that only user can see
 router.get('/', (req, res) => {
-  Restaurantlist.find({})
+  const userId = req.user._id
+  Restaurantlist.find({ userId })
     .lean()
+    .sort({ _id: 'asc' })
     .then((restaurant) => res.render('index', { restaurant }))
     .catch((error) => console.log(error))
 })
