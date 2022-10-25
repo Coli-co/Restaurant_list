@@ -1,4 +1,5 @@
 <!-- search bar -->
+
 <div class="container search-bar">
   <div class="search-bar-outer">
     <div class="search-bar-inner">
@@ -23,6 +24,12 @@
     </div>
   </div>
 </div>
+
+<div class="add-restaurant text-center mt-2">
+  <a href="/restaurants/new">
+    <button class="btn btn-success">新增餐廳</button>
+  </a>
+</div>
 {{#if matchResult }}
   <h2 class="text-center mt-3">沒有符合餐廳的資料，或許你可以嘗試以下的餐廳!</h2>
   <hr>
@@ -36,7 +43,7 @@
   {{/each}}
 {{/if}}
 <!-- restaurant list -->
-<div class="container mt-5">
+<div class="container mt-3">
   <div class="row">
     <div class="col-md-10 col-12 mx-auto">
       <div class="card-columns">

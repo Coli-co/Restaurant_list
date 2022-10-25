@@ -16,17 +16,20 @@
 </head>
 <body>
   <!-- navigation -->
-  <nav class="navbar navbar-light bg-light">
-    <div class="container">
+  <nav class="navbar navbar-light justify-content-between" style="background-color: #e3f2fd;;">
+    {{!-- <div class="container"> --}}
       <a class="navbar-brand" href="/">
-          <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png" width="30" height="30" class="d-inline-block align-top" alt="我的餐廳清單">
-          我的餐廳清單
-        </a>
-        <div class="add-restaurant mt-2">
-          <a href="/restaurants/new">
-          <button class="btn btn-success">新增餐廳</button>
-          </a>
-        </div>
+      
+      <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png" width="30" height="30" class="d-inline-block align-top" alt="餐廳清單">
+      {{#if isAuthenticated}}
+      {{ user.name }} 的餐廳清單 
+      {{/if}}
+      </a>
+      {{#if isAuthenticated}}
+        <a href="/users/logout" class="btn btn-secondary">Logout</a>
+      {{else}}
+        <a href="/users/login" class="btn btn-secondary">Login</a>
+      {{/if}}
     </div>
   </nav>
 
