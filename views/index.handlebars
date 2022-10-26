@@ -13,12 +13,15 @@
               <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
             </div>
           </div>
-          <select class="form-select w-50" id="sort" name="sort">
-            <option>A > Z</option>
-            <option>Z > A</option>
-            <option>類別</option>
-            <option>地區</option>
-          </select>
+          <form method="post" id="tableForm" action="/search">
+            <select class="form-select w-50" id="sort" name="sort">
+              <option value="nameandasc">A > Z</option>
+              <option value="nameanddesc">Z > A</option>
+              <option value="_idandasc">舊 > 新</option>
+              <option value="_idanddesc">新 > 舊</option>
+              <option value="ratinganddesc">評價</option>
+            </select>
+          </form>
         </div>
       </form>
     </div>

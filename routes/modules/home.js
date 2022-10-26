@@ -5,6 +5,7 @@ const Restaurantlist = require('../../models/restaurantList')
 // Routes that only user can see
 router.get('/', (req, res) => {
   const userId = req.user._id
+
   Restaurantlist.find({ userId })
     .lean()
     .sort({ _id: 'asc' })
@@ -14,16 +15,17 @@ router.get('/', (req, res) => {
 
 // search restaurant router　through name & category
 router.get('/search', (req, res) => {
+  const userId = req.user._id
   const keyword = req.query.keyword.trim().toLowerCase()
+  const sort = req.query.sort.split('and')
+  const sortby = sort[0] // sort by field
+  const order = sort[1] // asc or desc
   const keywordEnter = req.query.keyword
   const recommendName = []
-  // if search bar is empty, return homepage
-  if (!keyword) {
-    return res.redirect('/')
-  }
-  const userId = req.user._id
+
   Restaurantlist.find({ userId })
     .lean()
+    .sort([[sortby, order]])
     .then((restaurant) => {
       const searchRestaurant = restaurant.filter(
         (data) =>
@@ -49,7 +51,9 @@ router.get('/search', (req, res) => {
         restaurant: searchRestaurant,
         keyword: keywordEnter,
         matchResult,
-        recommendName
+        recommendName,
+        sortby,
+        order
       })
     })
     .catch((error) => console.log(error))
