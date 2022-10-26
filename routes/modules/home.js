@@ -21,7 +21,8 @@ router.get('/search', (req, res) => {
   if (!keyword) {
     return res.redirect('/')
   }
-  Restaurantlist.find({})
+  const userId = req.user._id
+  Restaurantlist.find({ userId })
     .lean()
     .then((restaurant) => {
       const searchRestaurant = restaurant.filter(
