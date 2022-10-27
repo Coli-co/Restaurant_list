@@ -2,7 +2,7 @@
 
 ### Intrduction
 
-This is a web application about restaurant list, including features of adding, browsing, and deleting. Besides, you can also check each restaurant page to view more detail.
+This is web application about personal restaurant list, you can login in by local or Facebook to create, edit, view and delete your own restaurant list.
 
 ### Screenshot
 
@@ -16,11 +16,11 @@ This is a web application about restaurant list, including features of adding, b
 
 ### Features
 
-- Search restaurant through name or category
-- Add new restaurant info
-- Edit restaurant info
-- Delete restaurant info
-- View restaurant detail
+- Register user profile
+- Check correctness of register or login data for user
+- Login by local or Facebook
+- Create, edit, view and delete restaurant
+- Filter restaurant list by different sortby
 
 ### Install
 
@@ -42,18 +42,32 @@ cd Restaurant_list
 npm install
 ```
 
-4. Start project
+4. Load seed data
+
+```
+npm run seed
+```
+
+5. Start project
 
 ```
 npm run start
 ```
 
-### Router
+### Tools
 
-| Description       | Router                                           |
-| ----------------- | ------------------------------------------------ |
-| Hompeage          | http://localhost:3000                            |
-| Restaurant detail | http://localhost:3000/restaurants/:reataurant_id |
+- bcryptjs: 2.4.3
+- body-parser: 1.20.0
+- connect-flash: 0.1.1
+- dotenv: 8.2.0
+- express: 4.16.4
+- express-handlebars: 4.0.2
+- express-session: 1.17.1
+- method-override: 3.0.0
+- mongoose: 5.9.7
+- passport: 0.4.1
+- passport-facebook: 3.0.0
+- passport-local: 1.0.0
 
 ### Developer
 
